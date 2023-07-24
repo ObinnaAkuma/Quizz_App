@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Quizz</string>
+    <string name="submit">SUBMIT</string>
+    <string name="quiz_image">Quiz Image</string>
+    <string name="what_country_has_this_flag">What country has this Flag?</string>
+    <string name="_0_10">0/10</string>
+    <string name="name">Name</string>
+    <string name="please_enter_your_name">Please enter your name</string>
+    <string name="welcome">Welcome!</string>
+    <string name="quiz_app">Quiz App!</string>
+</resources>
