@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 val intent = Intent(this, QuizQuestionsActivity::class.java)
                 startActivity(intent)
-                //finish() ensures that the activity we leave to the next ends and doesnt stay running in the background.
+                //finish() ensures that the activity we leave to the next ends and doesn't stay running in the background.
                 finish()
             }
         }
