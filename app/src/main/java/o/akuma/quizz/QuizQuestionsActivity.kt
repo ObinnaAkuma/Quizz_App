@@ -18,6 +18,8 @@ class QuizQuestionsActivity : AppCompatActivity(), OnClickListener {
     private var mQuestionsList: ArrayList<Questions>? = null
     private var mSelectedOptionPosition: Int = 0
 
+    private var mUserName: String? = null
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +27,8 @@ class QuizQuestionsActivity : AppCompatActivity(), OnClickListener {
         setContentView(binding.root)
 
         mQuestionsList = Constants.getQuestions()
+
+        mUserName = intent.getStringExtra(Constants.USER_NAME)
 
         binding.tvOptionOne.setOnClickListener(this)
         binding.tvOptionTwo.setOnClickListener(this)
@@ -99,6 +103,7 @@ class QuizQuestionsActivity : AppCompatActivity(), OnClickListener {
         )
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onClick(v: View?) {
 
         when (v?.id) {

@@ -21,6 +21,8 @@ class MainActivity : AppCompatActivity() {
                     "Please enter your name", Toast.LENGTH_SHORT).show()
             } else {
                 val intent = Intent(this, QuizQuestionsActivity::class.java)
+
+                intent.putExtra(Constants.USER_NAME, binding.etName.text.toString())
                 startActivity(intent)
                 //finish() ensures that the activity we leave to the next ends and doesn't stay running in the background.
                 finish()
