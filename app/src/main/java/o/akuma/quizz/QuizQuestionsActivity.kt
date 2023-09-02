@@ -6,18 +6,23 @@ import android.graphics.Color
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
+import android.util.Log
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import o.akuma.quizz.databinding.ActivityQuizQuestionsBinding
+import java.util.Locale
 
-class QuizQuestionsActivity : AppCompatActivity(), OnClickListener {
+class QuizQuestionsActivity : AppCompatActivity(), OnClickListener, TextToSpeech.OnInitListener {
 
     private lateinit var binding: ActivityQuizQuestionsBinding
     private var mCurrentPosition: Int = 1
     private var mQuestionsList: ArrayList<Questions>? = null
     private var mSelectedOptionPosition: Int = 0
+
+    private var tts: TextToSpeech? = null
 
     private var mUserName: String? = null
     private var mCorrectAnswers: Int = 0
@@ -30,6 +35,7 @@ class QuizQuestionsActivity : AppCompatActivity(), OnClickListener {
 
         mQuestionsList = Constants.getQuestions()
 
+        tts = TextToSpeech(this, this)
         mUserName = intent.getStringExtra(Constants.USER_NAME)
 
         binding.tvOptionOne.setOnClickListener(this)
@@ -103,6 +109,7 @@ class QuizQuestionsActivity : AppCompatActivity(), OnClickListener {
         tv.background = ContextCompat.getDrawable(
             this, R.drawable.selected_option_border_bg
         )
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -111,18 +118,22 @@ class QuizQuestionsActivity : AppCompatActivity(), OnClickListener {
         when (v?.id) {
             R.id.tvOptionOne -> {
                 selectedOptionView(binding.tvOptionOne, 1)
+                speakOut(binding.tvOptionOne.text.toString())
             }
 
             R.id.tvOptionTwo -> {
                 selectedOptionView(binding.tvOptionTwo, 2)
+                speakOut(binding.tvOptionTwo.text.toString())
             }
 
             R.id.tvOptionThree -> {
                 selectedOptionView(binding.tvOptionThree, 3)
+                speakOut(binding.tvOptionThree.text.toString())
             }
 
             R.id.tvOptionFour -> {
                 selectedOptionView(binding.tvOptionFour, 4)
+                speakOut(binding.tvOptionFour.text.toString())
             }
 
             R.id.btn_Submit -> {
@@ -196,4 +207,31 @@ class QuizQuestionsActivity : AppCompatActivity(), OnClickListener {
             }
         }
     }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS){
+            val result = tts!!.setLanguage(Locale.ENGLISH)
+
+            if (result == TextToSpeech.LANG_NOT_SUPPORTED){
+                Log.e("TTS", "Language Not Supported")
+            }else{
+                Log.e("TTS","Initialization Failed")
+            }
+        }
+    }
+
+    private fun speakOut(text: String){
+        tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        if (tts != null) {
+            tts?.stop()
+            tts?.shutdown()
+        }
+
+    }
+
+
 }
+
